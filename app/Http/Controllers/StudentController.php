@@ -22,7 +22,7 @@ class StudentController extends Controller
         Student::create($stData);
 
         return response()->json([
-            'status'=>200
+            'status'=>200,
         ]);
     }
 }

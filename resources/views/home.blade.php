@@ -36,11 +36,13 @@
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="POST" action="" id="add_student_form" enctype="multipart/form-data">
+            <form method="POST" action="#" id="add_student_form" enctype="multipart/form-data">
                 <div class="modal-content">
+                    @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">Add New Student</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="student_form_close" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -72,7 +74,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" id="add_student_btn" class="btn btn-primary">Save</button>
                     </div>
                 </div>
             </form>
@@ -105,6 +107,9 @@
                                 <tr>
                                     <td>Row 1 Data 1</td>
                                     <td>Row 1 Data 2</td>
+                                    <td>Row 1 Data 2</td>
+                                    <td>Row 1 Data 2</td>
+                                    <td>Row 1 Data 2</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,8 +121,9 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
@@ -128,12 +134,29 @@
     </script>
     <script>
         $(document).ready(function() {
-            $("#add_student_form").submit(function (e) {
-                e.preventDefault();
-                $fd = new FormData(this);
-
-            });
             $('#myTable').DataTable();
+
+            $("#add_student_form").submit(function(e) {
+                e.preventDefault();
+                const fd = new FormData(this);
+                $.ajax({
+                    url: '{{ route('saveStudent') }}',
+                    method: 'post',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#add_student_btn").text("Adding...");
+                        console.log(response);
+                        // alert(response['std_name'] + " added Success.");
+                        // setInterval(function() {
+                        //     $("#student_form_close").click();
+                        // }, 500);
+                    }
+                });
+            });
         });
     </script>
 
