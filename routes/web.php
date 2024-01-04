@@ -18,4 +18,8 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/showData', [StudentController::class, 'showData'])->name('showData');
 Route::post('/store',[StudentController::class,'store'])->name('saveStudent');
+Route::post('/findData',[StudentController::class,'findData'])->name('findData');
+Route::post('/update',[StudentController::class,'updateStd'])->name('updateData');
+
