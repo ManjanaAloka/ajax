@@ -241,7 +241,7 @@
                         // console.log(response);
                         alert(response['std_name'] + " added Success.");
                         setInterval(function() {
-                            $("#student_form_close").click();
+                            $("#create_student").model('hide');
                             fetchAllStudents();
                         }, 500);
                     }
@@ -274,6 +274,28 @@
                 });
             });
 
+            // ================Delete Student===============
+
+            $(document).on("click", '.Delete-student', function(e) {
+                e.preventDefault();
+                var stID = $(this).attr('id');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('delStudent') }}',
+                    data: {
+                        id: stID,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status==200) {
+                            swal("Deleted !", "Student Delete Successfull..!", "success");
+                            fetchAllStudents();
+                        }
+                        // alert(response);
+                    }
+                });
+            });
 
         });
     </script>

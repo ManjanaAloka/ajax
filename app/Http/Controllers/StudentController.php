@@ -45,7 +45,7 @@ class StudentController extends Controller
                    <td> <img src="storage/images/' . $student->avatar . '" alt="asd" style="width: 50px;height: 50px;" class="img-fluid img-thumbnail rounded-circle"></td>
                    <td>' . $student->name . '</td>
                    <td>' . $student->email . '</td>
-                   <td><a href="#" id="' . $student->id . '" data-toggle="modal" data-target="#edit_student" class="edit_student">Edit</a> | <a href="">Delete</a></td>
+                   <td><a href="#" id="' . $student->id . '" data-toggle="modal" data-target="#edit_student" class="edit_student">Edit</a> | <a href="" class="Delete-student" id="' . $student->id . '">Delete</a></td>
                </tr>';
         }
         echo $response;
@@ -83,6 +83,16 @@ class StudentController extends Controller
         ];
         $student->update($studata);
 
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function delStudent(Request $response)
+    {
+        $student = Student::find($response->id);
+        Storage::delete('public/images/' . $student->avatar);
+        $student->delete();
         return response()->json([
             'status' => 200,
         ]);
