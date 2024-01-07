@@ -18,10 +18,10 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/showData', [StudentController::class, 'showData'])->name('showData');
-Route::post('/store',[StudentController::class,'store'])->name('saveStudent');
-Route::post('/findData',[StudentController::class,'findData'])->name('findData');
-Route::post('/update',[StudentController::class,'updateStd'])->name('updateData');
-Route::get('/delStudent', [StudentController::class, 'delStudent'])->name('delStudent');
-
-
+Route::group(['prefix' => 'student'], function () {
+    Route::get('/showData', [StudentController::class, 'showData'])->name('showData');
+    Route::post('/store', [StudentController::class, 'store'])->name('saveStudent');
+    Route::post('/findData', [StudentController::class, 'findData'])->name('findData');
+    Route::post('/update', [StudentController::class, 'updateStd'])->name('updateData');
+    Route::get('/delStudent', [StudentController::class, 'delStudent'])->name('delStudent');
+});
